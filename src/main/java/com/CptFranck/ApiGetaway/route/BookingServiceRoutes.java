@@ -15,8 +15,11 @@ import static org.springframework.cloud.gateway.server.mvc.handler.HandlerFuncti
 @Configuration
 public class BookingServiceRoutes {
 
-    @Value("${app.backend.booking-service}")
-    private String BOOKING_SERVICE_URL;
+    private static String BOOKING_SERVICE_URL;
+
+    public BookingServiceRoutes(@Value("${app.backend.booking-service}") String bookingServiceUrl) {
+        BOOKING_SERVICE_URL = bookingServiceUrl;
+    }
 
     @Bean
     public RouterFunction<ServerResponse> bookingRoutes() {
