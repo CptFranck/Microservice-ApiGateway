@@ -24,9 +24,11 @@ public class InventoryServiceRoutes {
     public RouterFunction<ServerResponse> inventoryRoutes() {
         return GatewayRouterFunctions.route("inventory-service")
                 .GET(RequestPredicates.path("/api/v1/inventory/venue/{venueId}"), http())
-                .before(request -> uri(INVENTORY_SERVICE_URL + "api/v1/inventory/venue/" + request.pathVariable("venueId")).apply(request))
+                .before(uri(INVENTORY_SERVICE_URL + "api/v1/inventory/venue/"))
                 .GET(RequestPredicates.path("/api/v1/inventory/event/{eventId}"), http())
-                .before(request -> uri(INVENTORY_SERVICE_URL + "api/v1/inventory/venue/" + request.pathVariable("venueId")).apply(request))
+                .before(uri(INVENTORY_SERVICE_URL + "api/v1/inventory/event/"))
+                .GET(RequestPredicates.path("/api/v1/inventory/events"), http())
+                .before(uri(INVENTORY_SERVICE_URL + "/api/v1/inventory/events"))
                 .build();
     }
 }
