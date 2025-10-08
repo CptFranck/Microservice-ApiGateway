@@ -24,7 +24,7 @@ public class BookingServiceRoutes {
     @Bean
     public RouterFunction<ServerResponse> bookingRoutes() {
         return GatewayRouterFunctions.route("booking-service")
-                .route(RequestPredicates.path("/api/v1/booking"), http())
+                .POST(RequestPredicates.path("/api/v1/booking"), http())
                 .before(uri(BOOKING_SERVICE_URL + "/api/v1/booking"))
                 .build();
     }
