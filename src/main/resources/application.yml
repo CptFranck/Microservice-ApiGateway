@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: ApiGetaway
+
+server:
+  port: 8090
+
+app:
+  backend:
+    booking-service: http://localhost:8081/
+    inventory-service: http://localhost:8080/
