@@ -29,6 +29,18 @@ management:
       exposure:
         include: "*"
 
+#OpenAPI
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: Inventory Service
+        url: /docs/inventory-service/v3/api-docs
+      - name: Booking Service
+        url: /docs/booking-service/v3/api-docs
+  api-docs:
+    path: /v3/api-docs
+
 #Resilinece4j
 resilience4j:
   circuitbreaker:
