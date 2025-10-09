@@ -16,7 +16,7 @@ public class InventoryServiceRoutes {
 
     private static String INVENTORY_SERVICE_URL;
 
-    public InventoryServiceRoutes(@Value("${app.backend.booking-service}") String bookingServiceUrl) {
+    public InventoryServiceRoutes(@Value("${app.backend.inventory-service}") String bookingServiceUrl) {
         INVENTORY_SERVICE_URL = bookingServiceUrl;
     }
 
