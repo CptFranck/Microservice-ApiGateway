@@ -1,4 +1,4 @@
-package com.CptFranck.ApiGetaway.route;
+package com.CptFranck.ApiGetaway.config.route;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctions;
