@@ -2,19 +2,24 @@ spring:
   application:
     name: ApiGetaway
 
-  #Keycloak
+  # Keycloak
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8091/realms/ticketing-security-realm
 
-keycloak:
-  auth:
-    jwk-set-uri: http://localhost:8091/realms/ticketing-security-realm/protocol/openid-connect/certs
-
-server:
-  port: 8090
+# OpenAPI
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: Inventory Service
+        url: /docs/inventory-service/v3/api-docs
+      - name: Booking Service
+        url: /docs/booking-service/v3/api-docs
+  api-docs:
+    path: /v3/api-docs
 
 # Actuator
 management:
@@ -29,23 +34,7 @@ management:
       exposure:
         include: "*"
 
-#OpenAPI
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
-    urls:
-      - name: Inventory Service
-        url: /docs/inventory-service/v3/api-docs
-      - name: Booking Service
-        url: /docs/booking-service/v3/api-docs
-  api-docs:
-    path: /v3/api-docs
-
-security:
-  excluded:
-    urls: /swagger-ui.html, /swagger-ui/**,/docs/**,/v3/api-docs/**,/swagger-resources/**,/api-docs/**
-
-#Resilinece4j
+# Resilinece4j
 resilience4j:
   circuitbreaker:
     configs:
@@ -68,7 +57,26 @@ resilience4j:
         max-attempts: 3
         wait-duration: 2s
 
+server:
+  port: 8090
+
+# Keycloak variable
+keycloak:
+  auth:
+    jwk-set-uri: http://localhost:8091/realms/ticketing-security-realm/protocol/openid-connect/certs
+
+# Routes variables
 app:
   backend:
     booking-service: http://localhost:8081/
     inventory-service: http://localhost:8080/
+
+# security config variables
+security:
+  excluded:
+    urls: /swagger-ui.html, /swagger-ui/**,/docs/**,/v3/api-docs/**,/swagger-resources/**,/api-docs/**
+
+#logging:
+#  level:
+#    root: debug
+
