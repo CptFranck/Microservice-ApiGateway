@@ -41,3 +41,15 @@ The gateway forwards requests to these services based on defined routes.
 | **Java 21** | Runtime language |
 
 ---
+
+## 🧩 Architecture Integration
+
+The API Gateway is part of a **5-repository microservice ecosystem**:
+
+1. **Common** – Shared DTOs and utilities used across services.  
+2. **Booking Service** – Handles booking operations and exposes endpoints.  
+3. **Inventory Service** – Manages venue and event stock, communicates via Kafka.  
+4. **Order Service** – Manages customer orders and coordinates with inventory and booking services.  
+5. **API Gateway** – Central entry point for all external clients, handles routing, authentication via Keycloak, and unified API documentation.
+
+The API Gateway routes client requests to backend services, enforces security policies, and provides a single, centralized access point for the entire system.
