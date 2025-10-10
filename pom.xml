@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.CptFranck</groupId>
-	<artifactId>ApiGetaway</artifactId>
+	<artifactId>ApiGateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ApiGetaway</name>
-	<description>Micro Services - Api Getaway</description>
+	<name>ApiGateway</name>
+	<description>Micro Services - Api Gateway</description>
 	<url/>
 	<licenses>
 		<license/>

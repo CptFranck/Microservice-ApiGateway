@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ApiGetaway
+    name: ApiGateway
 
   # Keycloak
   security:

@@ -1,4 +1,4 @@
-package com.CptFranck.ApiGetaway;
+package com.CptFranck.ApiGateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
