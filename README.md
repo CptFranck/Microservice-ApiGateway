@@ -1,44 +1,30 @@
-# 🧭 API Gateway for Microservices Architecture
+# 🧭 Microservice - API Gateway
 
-This project is an **API Gateway** built with **Spring Cloud Gateway (WebMVC)** as part of a microservice-based architecture.  
-It routes incoming requests to backend services (Booking and Inventory), handles **OAuth2 authentication** through **Keycloak**, provides **resilience** via **Resilience4j**, and exposes **OpenAPI** documentation for each service.
+The **API Gateway** is a core component of the microservice architecture.  
+It serves as the **single entry point** for all external clients, routes requests to backend services (Booking, Inventory, Order), handles **OAuth2 authentication** via **Keycloak**, ensures **resilience** using **Resilience4j**, and exposes **REST API documentation** with **OpenAPI**.
 
 ---
 
 ## 🚀 Overview
 
-The **API Gateway** serves as a single entry point to the system.  
-It acts as a reverse proxy that:
-- Routes client requests to backend microservices.
-- Secures endpoints using **JWT tokens** validated by **Keycloak**.
-- Provides fault tolerance using **Circuit Breaker patterns**.
-- Offers unified **API documentation** using **SpringDoc / OpenAPI**.
-- Monitors and manages service health through **Spring Boot Actuator**.
+The API Gateway acts as a **reverse proxy** that:  
+- Routes client requests to backend microservices.  
+- Secures endpoints with **JWT tokens** validated by **Keycloak**.  
+- Provides fault tolerance through **circuit breakers**.  
+- Centralizes API documentation via **SpringDoc / OpenAPI**.  
+- Monitors system health using **Spring Boot Actuator**.
 
 ---
 
-## 🧩 Connected Microservices
+## ⚙️ Key Features
 
-| Service Name     | Port  | Description |
-|------------------|-------|-------------|
-| **Booking Service**   | `8081` | Handles booking-related operations. |
-| **Inventory Service** | `8080` | Manages venue and event inventory. |
-
-The gateway forwards requests to these services based on defined routes.
-
----
-
-## ⚙️ Key Technologies
-
-| Technology | Purpose |
-|-------------|----------|
-| **Spring Boot 3.5.6** | Application framework |
-| **Spring Cloud Gateway (WebMVC)** | API Gateway routing and filters |
-| **Keycloak** | OAuth 2.0 authentication and JWT validation |
-| **Resilience4j** | Circuit breaker and retry mechanism |
-| **Spring Boot Actuator** | Monitoring and health checks |
-| **SpringDoc OpenAPI** | API documentation (Swagger UI) |
-| **Java 21** | Runtime language |
+- **Spring Boot 3.5.6** – Core application framework  
+- **Spring Cloud Gateway (WebMVC)** – Routing and request filtering  
+- **Keycloak** – OAuth2 authentication and JWT validation  
+- **Resilience4j** – Circuit breaker and retry mechanisms  
+- **Spring Boot Actuator** – Monitoring and health checks  
+- **SpringDoc OpenAPI** – Interactive API documentation (Swagger UI)  
+- **Java 21** – Runtime language  
 
 ---
 
@@ -47,9 +33,9 @@ The gateway forwards requests to these services based on defined routes.
 The API Gateway is part of a **5-repository microservice ecosystem**:
 
 1. **Common** – Shared DTOs and utilities used across services.  
-2. **Booking Service** – Handles booking operations and exposes endpoints.  
-3. **Inventory Service** – Manages venue and event stock, communicates via Kafka.  
-4. **Order Service** – Manages customer orders and coordinates with inventory and booking services.  
-5. **API Gateway** – Central entry point for all external clients, handles routing, authentication via Keycloak, and unified API documentation.
+2. **Booking Service** – Handles booking operations and emits events.  
+3. **Inventory Service** – Maintains venue and event stock, communicates via Kafka.  
+4. **Order Service** – Manages customer orders and coordinates with booking and inventory services.  
+5. **API Gateway** – Central entry point for all external clients, handles routing, authentication, and unified API documentation.
 
-The API Gateway routes client requests to backend services, enforces security policies, and provides a single, centralized access point for the entire system.
+The gateway routes requests to backend services, enforces security policies, and provides a single, centralized access point for the system.
