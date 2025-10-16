@@ -20,7 +20,7 @@ public class NotificationServiceRoutes {
         return builder.routes()
                 .route("notification-ws", r -> r
                         .path("/ws-notification/**")
-                        .uri("ws://" + NOTIFICATION_SERVICE_URL))
+                        .uri(NOTIFICATION_SERVICE_URL))
                 .build();
     }
 }
