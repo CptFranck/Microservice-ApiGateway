@@ -1,4 +1,4 @@
-package com.CptFranck.ApiGateway.config;
+package com.CptFranck.ApiGateway.config.route;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.route.RouteLocator;
