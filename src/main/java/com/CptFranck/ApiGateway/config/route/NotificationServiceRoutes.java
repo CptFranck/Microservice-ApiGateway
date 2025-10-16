@@ -16,12 +16,11 @@ public class NotificationServiceRoutes {
     }
 
     @Bean
-    public RouteLocator routes(RouteLocatorBuilder builder) {
+    public RouteLocator notificationRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("notification-ws", r -> r
                         .path("/ws-notification/**")
-                        .uri("ws://" + NOTIFICATION_SERVICE_URL)) // WebSocket proxy
-
+                        .uri("ws://" + NOTIFICATION_SERVICE_URL))
                 .build();
     }
 }
