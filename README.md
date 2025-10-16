@@ -30,6 +30,8 @@ The API Gateway acts as a **reverse proxy** that:
 
 ## 🧩 Architecture Integration
 
+![Architecture du projet](docs/archi.png)
+
 The API Gateway is part of a **5-repository microservice ecosystem**:
 
 1. **Common** – Shared DTOs and utilities used across services.  
