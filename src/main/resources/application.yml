@@ -74,8 +74,10 @@ app:
 
 # security config variables
 security:
+  cors:
+    allowed-origins: http://localhost:4200
   excluded:
-    urls: /swagger-ui.html, /swagger-ui/**,/docs/**,/v3/api-docs/**,/swagger-resources/**,/api-docs/**, /ws-notification/**
+    urls: /swagger-ui.html, /swagger-ui/**,/docs/**,/v3/api-docs/**,/swagger-resources/**,/api-docs/** #, /ws-notification/**
 
 #logging:
 #  level:
