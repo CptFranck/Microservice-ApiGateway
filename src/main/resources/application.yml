@@ -9,22 +9,6 @@ spring:
         jwt:
           issuer-uri: http://localhost:8091/realms/ticketing-security-realm
 
-  # API Gateway cors configuration
-#  cloud:
-#    gateway:
-#      server:
-#        webflux:
-#          default-filters:
-#            - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
-#          globalcors:
-#            cors-configurations:
-#              '[/**]':
-#                allowedOrigins: "http://localhost:4200, http://localhost:63343"
-#                allowedHeaders: "*"
-#                allowedMethods:
-#                  - GET
-#                  - POST
-
 server:
   port: 8090
 
