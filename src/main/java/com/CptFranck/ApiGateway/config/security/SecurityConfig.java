@@ -1,5 +1,6 @@
 package com.CptFranck.ApiGateway.config.security;
 
+import com.CptFranck.ApiGateway.config.WebConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,18 +14,22 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @EnableWebFluxSecurity
 public class SecurityConfig {
 
-
     @Value("${keycloak.auth.jwk-set-uri}")
     private String jwkSetUri;
-
 
     @Value("${security.excluded.urls}")
     private String[] excludedUrls;
 
+    final private WebConfig webConfig;
+
+    public SecurityConfig(WebConfig webConfig) {
+        this.webConfig = webConfig;
+    }
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         return http
+                .cors(corsSpec -> corsSpec.configurationSource(webConfig.corsWebFilter()))
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers(excludedUrls).permitAll()
@@ -37,18 +42,4 @@ public class SecurityConfig {
     public ReactiveJwtDecoder jwtDecoder() {
         return NimbusReactiveJwtDecoder.withJwkSetUri(jwkSetUri).build();
     }
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-//        return httpSecurity.authorizeHttpRequests(authorizeRequests -> authorizeRequests
-//                                .requestMatchers(excludedUrls).permitAll()
-//                                .anyRequest().authenticated())
-//                .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()))
-//                .build();
-//    }
-//
-//    @Bean
-//    public JwtDecoder jwtDecoder() {
-//        return NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build();
-//    }
 }
