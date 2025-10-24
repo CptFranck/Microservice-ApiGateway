@@ -76,10 +76,7 @@ app:
 security:
   cors:
     allowed-origins: http://localhost:4200, http://localhost:63342
-  excluded:
-    urls: /swagger-ui.html, /swagger-ui/**,/docs/**,/v3/api-docs/**,/swagger-resources/**,/api-docs/**
 
 #logging:
 #  level:
 #    root: debug
-
