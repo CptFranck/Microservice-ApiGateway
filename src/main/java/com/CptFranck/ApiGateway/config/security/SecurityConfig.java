@@ -17,9 +17,6 @@ public class SecurityConfig {
     @Value("${keycloak.auth.jwk-set-uri}")
     private String jwkSetUri;
 
-    @Value("${security.excluded.urls}")
-    private String[] excludedUrls;
-
     final private WebConfig webConfig;
 
     public SecurityConfig(WebConfig webConfig) {
@@ -32,7 +29,14 @@ public class SecurityConfig {
                 .cors(corsSpec -> corsSpec.configurationSource(webConfig.corsWebFilter()))
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers(excludedUrls).permitAll()
+                        .pathMatchers("/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/swagger-resources/**",
+                                "/docs/**",
+                                "/api-docs/**",
+                                "/v3/api-docs/**"
+                                ,"/ws-notification/**"
+                        ).permitAll()
                         .anyExchange().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtSpec -> jwtSpec.jwtDecoder(jwtDecoder())))
                 .build();
