@@ -21,8 +21,8 @@ public class NotificationServiceRoutes {
                 .route("notification-ws", r -> r
                         .path("/ws-notification/**")
                         .filters(f -> f
-                                .removeRequestHeader("Origin")
-                                .removeRequestHeader("Access-Control-Allow-Origin"))
+                                .dedupeResponseHeader("Access-Control-Allow-Origin","RETAIN_UNIQUE")
+                                .dedupeResponseHeader("Access-Control-Allow-Credentials","RETAIN_UNIQUE"))
                         .uri(NOTIFICATION_SERVICE_URL))
                 .build();
     }
