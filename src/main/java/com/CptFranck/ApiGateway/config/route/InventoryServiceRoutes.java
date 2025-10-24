@@ -33,26 +33,4 @@ public class InventoryServiceRoutes {
                         .uri(INVENTORY_SERVICE_URL))
                 .build();
     }
-
-//    @Bean
-//    public RouterFunction<ServerResponse> inventoryRoutes() {
-//        return GatewayRouterFunctions.route("inventory-service")
-//                .GET(RequestPredicates.path("/api/v1/inventory/venue/{venueId}"), http())
-//                .before(uri(INVENTORY_SERVICE_URL + "api/v1/inventory/venue/"))
-//                .GET(RequestPredicates.path("/api/v1/inventory/event/{eventId}"), http())
-//                .before(uri(INVENTORY_SERVICE_URL + "api/v1/inventory/event/"))
-//                .GET(RequestPredicates.path("/api/v1/inventory/events"), http())
-//                .before(uri(INVENTORY_SERVICE_URL + "/api/v1/inventory/events"))
-//                .build();
-//    }
-//
-//
-//    @Bean
-//    public RouterFunction<ServerResponse> inventoryServiceApiDocs() {
-//        return GatewayRouterFunctions.route("inventory-service-api-docs")
-//                .route(RequestPredicates.path("/docs/inventory-service/v3/api-docs"), http())
-//                .before(uri(INVENTORY_SERVICE_URL))
-//                .filter(setPath("/v3/api-docs"))
-//                .build();
-//    }
 }
