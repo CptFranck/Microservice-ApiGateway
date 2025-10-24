@@ -20,6 +20,9 @@ public class NotificationServiceRoutes {
         return builder.routes()
                 .route("notification-ws", r -> r
                         .path("/ws-notification/**")
+                        .filters(f -> f
+                                .removeRequestHeader("Origin")
+                                .removeRequestHeader("Access-Control-Allow-Origin"))
                         .uri(NOTIFICATION_SERVICE_URL))
                 .build();
     }
