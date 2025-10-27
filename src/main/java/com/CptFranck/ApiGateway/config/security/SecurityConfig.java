@@ -14,13 +14,13 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @EnableWebFluxSecurity
 public class SecurityConfig {
 
-    @Value("${keycloak.auth.jwk-set-uri}")
-    private String jwkSetUri;
+    private static String JWT_URI;
 
     final private WebConfig webConfig;
 
-    public SecurityConfig(WebConfig webConfig) {
+    public SecurityConfig(WebConfig webConfig, @Value("${keycloak.auth.jwk-set-uri}") String jwkSetUri) {
         this.webConfig = webConfig;
+        JWT_URI = jwkSetUri;
     }
 
     @Bean
@@ -28,15 +28,20 @@ public class SecurityConfig {
         return http
                 .cors(corsSpec -> corsSpec.configurationSource(webConfig.corsWebFilter()))
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers("/swagger-ui.html",
+                .authorizeExchange(authorizeExchangeSpec -> authorizeExchangeSpec
+                        .pathMatchers(
+                                "/swagger-ui.html",
                                 "/swagger-ui/**",
                                 "/swagger-resources/**",
                                 "/docs/**",
                                 "/api-docs/**",
-                                "/v3/api-docs/**"
-                                ,"/ws-notification/**"
+                                "/v3/api-docs/**",
+                                "/ws-notification/**"
                         ).permitAll()
+                        .pathMatchers(
+                                "/api/v1/booking",
+                                "/api/v1/inventory"
+                        ).authenticated()
                         .anyExchange().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtSpec -> jwtSpec.jwtDecoder(jwtDecoder())))
                 .build();
@@ -44,6 +49,6 @@ public class SecurityConfig {
 
     @Bean
     public ReactiveJwtDecoder jwtDecoder() {
-        return NimbusReactiveJwtDecoder.withJwkSetUri(jwkSetUri).build();
+        return NimbusReactiveJwtDecoder.withJwkSetUri(JWT_URI).build();
     }
 }
