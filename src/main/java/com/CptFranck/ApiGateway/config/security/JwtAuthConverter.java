@@ -13,25 +13,23 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
 public class JwtAuthConverter implements Converter<Jwt, Mono<AbstractAuthenticationToken>> {
 
-    static private String RESSOURCE_ID;
+    private final String ressourceId;
 
-    static private String PRINCIPAL_ATTRIBUTE;
+    private final String principalAttribute;
 
     private final JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter;
 
-    public JwtAuthConverter(@Value("${keycloak.auth.converter.ressource-id}") String ressourceId,
-                            @Value("${keycloak.auth.converter.principal-attribute}") String principalAttribute) {
-        RESSOURCE_ID = ressourceId;
-        PRINCIPAL_ATTRIBUTE = principalAttribute;
+    public JwtAuthConverter(@Value("${keycloak.auth.converter.ressource-id}") String ressourceId_,
+                            @Value("${keycloak.auth.converter.principal-attribute}") String principalAttribute_) {
+        this.ressourceId = ressourceId_;
+        this.principalAttribute = principalAttribute_;
         this.jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
     }
 
@@ -53,11 +51,13 @@ public class JwtAuthConverter implements Converter<Jwt, Mono<AbstractAuthenticat
         if(jwt.getClaim("resource_access") == null) return Set.of();
 
         Map<String, Object> ressourceAccess = jwt.getClaim("resource_access");
-        if(ressourceAccess.get(RESSOURCE_ID) == null) return Set.of();
+        if(ressourceAccess.get(ressourceId) == null) return Set.of();
 
-        Map<String, Object> ressource = (Map<String, Object>) ressourceAccess.get(RESSOURCE_ID);
+        Map<String, Object> ressource = (Map<String, Object>) ressourceAccess.get(ressourceId);
 
-        Collection<String> roles = (Collection<String>) ressource.get("roles");
+        Collection<String> roles = Optional.ofNullable((Collection<String>) ressource.get("roles"))
+                .orElse(Collections.emptyList());
+
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toSet());
@@ -65,8 +65,8 @@ public class JwtAuthConverter implements Converter<Jwt, Mono<AbstractAuthenticat
 
     private String getPrinciplesClaimName(Jwt jwt) {
         String claimName = JwtClaimNames.SUB;
-        if(PRINCIPAL_ATTRIBUTE != null)
-            claimName = PRINCIPAL_ATTRIBUTE;
+        if(principalAttribute != null)
+            claimName = principalAttribute;
         return jwt.getClaimAsString(claimName);
     }
 }
