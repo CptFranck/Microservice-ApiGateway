@@ -8,6 +8,7 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8091/realms/ticketing-security-realm
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
 
 server:
   port: 8090
@@ -63,7 +64,9 @@ resilience4j:
 # Keycloak variable
 keycloak:
   auth:
-    jwk-set-uri: http://localhost:8091/realms/ticketing-security-realm/protocol/openid-connect/certs
+    converter:
+      ressource-id: ticketing-security-realm
+      principal-attribute: preferred_username
 
 # Routes variables
 app:
@@ -72,7 +75,7 @@ app:
     inventory-service: http://localhost:8080/
     notification-service: http://localhost:8085/
 
-# security config variables
+# Security config variables
 security:
   cors:
     allowed-origins: http://localhost:4200, http://localhost:63342
