@@ -14,15 +14,17 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @EnableWebFluxSecurity
 public class SecurityConfig {
 
-    private static String JWT_URI;
+    private final String jwtUri;
 
-    final private WebConfig webConfig;
+    private final WebConfig webConfig;
 
-    final private JwtAuthConverter jwtAuthConverter;
+    private final JwtAuthConverter jwtAuthConverter;
 
-    public SecurityConfig(WebConfig webConfig, @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}") String jwkSetUri, JwtAuthConverter jwtAuthConverter) {
+    public SecurityConfig(@Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}") String jwkSetUri,
+                          WebConfig webConfig,
+                          JwtAuthConverter jwtAuthConverter) {
+        this.jwtUri = jwkSetUri;
         this.webConfig = webConfig;
-        JWT_URI = jwkSetUri;
         this.jwtAuthConverter = jwtAuthConverter;
     }
 
@@ -55,6 +57,6 @@ public class SecurityConfig {
 
     @Bean
     public ReactiveJwtDecoder jwtDecoder() {
-        return NimbusReactiveJwtDecoder.withJwkSetUri(JWT_URI).build();
+        return NimbusReactiveJwtDecoder.withJwkSetUri(jwtUri).build();
     }
 }
