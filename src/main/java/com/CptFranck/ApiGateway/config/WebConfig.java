@@ -11,27 +11,32 @@ import java.util.List;
 @Configuration
 public class WebConfig {
 
-    private static final List<String> HEADERS_ACCEPTED = List.of(
+    private final List<String> allowedOrigins;
+
+    private final List<String> methodsRest = List.of(
+            "GET",
+            "POST",
+            "OPTIONS"
+    );
+
+    private final List<String> headersAccepted = List.of(
             "Authorization",
             "Content-Type",
             "Accept",
             "Origin",
             "X-Requested-With"
     );
-    private static final List<String> METHODS_REST = List.of("GET","POST","OPTIONS");
-
-    private static List<String> ALLOWED_ORIGINS;
 
     public WebConfig(@Value("${security.cors.allowed-origins}") String[] allowedOrigins) {
-        ALLOWED_ORIGINS = List.of(allowedOrigins);
+        this.allowedOrigins = List.of(allowedOrigins);
     }
 
     @Bean
     public UrlBasedCorsConfigurationSource corsWebFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.setAllowedOriginPatterns(ALLOWED_ORIGINS);
-        corsConfig.setAllowedMethods(METHODS_REST);
-        corsConfig.setAllowedHeaders(HEADERS_ACCEPTED);
+        corsConfig.setAllowedMethods(methodsRest);
+        corsConfig.setAllowedHeaders(headersAccepted);
+        corsConfig.setAllowedOriginPatterns(allowedOrigins);
         corsConfig.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

@@ -9,10 +9,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class BookingServiceRoutes {
 
-    private static String BOOKING_SERVICE_URL;
+    private final String bookingServiceUrl;
 
     public BookingServiceRoutes(@Value("${app.backend.booking-service}") String bookingServiceUrl) {
-        BOOKING_SERVICE_URL = bookingServiceUrl;
+        this.bookingServiceUrl = bookingServiceUrl;
     }
 
     @Bean
@@ -23,12 +23,12 @@ public class BookingServiceRoutes {
                         .filters(f -> f.circuitBreaker(config -> config
                                 .setName("bookingServiceCircuitBreaker")
                                 .setFallbackUri("forward:/fallbackRoute")))
-                        .uri(BOOKING_SERVICE_URL))
+                        .uri(bookingServiceUrl))
 
                 .route("booking-api-docs", r -> r
                         .path("/docs/booking-service/v3/api-docs")
                         .filters(f -> f.rewritePath("/docs/booking-service/v3/api-docs", "/v3/api-docs"))
-                        .uri(BOOKING_SERVICE_URL))
+                        .uri(bookingServiceUrl))
 
                 .route("fallback-route", r -> r
                         .path("/fallbackRoute")

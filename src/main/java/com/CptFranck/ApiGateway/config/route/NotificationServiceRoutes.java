@@ -9,10 +9,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class NotificationServiceRoutes {
 
-    private static String NOTIFICATION_SERVICE_URL;
+     private final String notificationServiceUrl;
 
     public NotificationServiceRoutes(@Value("${app.backend.notification-service}") String notificationServiceUrl) {
-        NOTIFICATION_SERVICE_URL = notificationServiceUrl;
+        this.notificationServiceUrl = notificationServiceUrl;
     }
 
     @Bean
@@ -23,7 +23,7 @@ public class NotificationServiceRoutes {
                         .filters(f -> f
                                 .dedupeResponseHeader("Access-Control-Allow-Origin","RETAIN_UNIQUE")
                                 .dedupeResponseHeader("Access-Control-Allow-Credentials","RETAIN_UNIQUE"))
-                        .uri(NOTIFICATION_SERVICE_URL))
+                        .uri(notificationServiceUrl))
                 .build();
     }
 }
