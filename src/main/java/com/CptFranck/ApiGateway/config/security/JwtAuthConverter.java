@@ -42,25 +42,23 @@ public class JwtAuthConverter implements Converter<Jwt, Mono<AbstractAuthenticat
                 extractRessourceRoles(jwt).stream()
             ).collect(Collectors.toSet());
 
-        return Mono.just(new JwtAuthenticationToken(jwt, authorities));
+        return Mono.just(new JwtAuthenticationToken(
+                jwt,
+                authorities,
+                getPrinciplesClaimName(jwt)
+        ));
     }
 
-    private Collection<? extends GrantedAuthority> extractRessourceRoles(Jwt jwt) {
-        Map<String, Object> ressourceAccess;
-        Map<String, Object> ressource;
-        Collection<String> ressourceRoles;
+    private Collection<GrantedAuthority> extractRessourceRoles(Jwt jwt) {
+        if(jwt.getClaim("resource_access") == null) return Set.of();
 
-        if(jwt.getClaim("resource_access") == null)
-            return Set.of();
+        Map<String, Object> ressourceAccess = jwt.getClaim("resource_access");
+        if(ressourceAccess.get(RESSOURCE_ID) == null) return Set.of();
 
-        ressourceAccess = jwt.getClaim("resource_access");
-        if(ressourceAccess.get(RESSOURCE_ID) == null)
-            return Set.of();
+        Map<String, Object> ressource = (Map<String, Object>) ressourceAccess.get(RESSOURCE_ID);
 
-        ressource = (Map<String, Object>) ressourceAccess.get(RESSOURCE_ID);
-
-        ressourceRoles = (Collection<String>) ressource.get("roles");
-        return ressourceRoles.stream()
+        Collection<String> roles = (Collection<String>) ressource.get("roles");
+        return roles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toSet());
     }
