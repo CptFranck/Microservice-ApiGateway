@@ -18,9 +18,12 @@ public class SecurityConfig {
 
     final private WebConfig webConfig;
 
-    public SecurityConfig(WebConfig webConfig, @Value("${keycloak.auth.jwk-set-uri}") String jwkSetUri) {
+    final private JwtAuthConverter jwtAuthConverter;
+
+    public SecurityConfig(WebConfig webConfig, @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}") String jwkSetUri, JwtAuthConverter jwtAuthConverter) {
         this.webConfig = webConfig;
         JWT_URI = jwkSetUri;
+        this.jwtAuthConverter = jwtAuthConverter;
     }
 
     @Bean
@@ -43,7 +46,10 @@ public class SecurityConfig {
                                 "/api/v1/inventory"
                         ).authenticated()
                         .anyExchange().authenticated())
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtSpec -> jwtSpec.jwtDecoder(jwtDecoder())))
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(jwtSpec -> jwtSpec
+                                .jwtDecoder(jwtDecoder())
+                               .jwtAuthenticationConverter(jwtAuthConverter)))
                 .build();
     }
 
