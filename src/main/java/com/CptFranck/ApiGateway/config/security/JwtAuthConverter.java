@@ -59,7 +59,7 @@ public class JwtAuthConverter implements Converter<Jwt, Mono<AbstractAuthenticat
                 .orElse(Collections.emptyList());
 
         return roles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.replace("-", "_")))
                 .collect(Collectors.toSet());
     }
 
