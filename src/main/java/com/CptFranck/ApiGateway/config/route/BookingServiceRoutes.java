@@ -20,9 +20,11 @@ public class BookingServiceRoutes {
         return builder.routes()
                 .route("booking-service", r -> r
                         .path("/api/v1/booking")
-                        .filters(f -> f.circuitBreaker(config -> config
-                                .setName("bookingServiceCircuitBreaker")
-                                .setFallbackUri("forward:/fallbackRoute")))
+                        .filters(f -> f
+                                .tokenRelay()
+                                .circuitBreaker(config -> config
+                                    .setName("bookingServiceCircuitBreaker")
+                                    .setFallbackUri("forward:/fallbackRoute")))
                         .uri(bookingServiceUrl))
 
                 .route("booking-api-docs", r -> r
