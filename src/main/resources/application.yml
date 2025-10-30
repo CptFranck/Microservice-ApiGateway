@@ -7,8 +7,18 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8091/realms/ticketing-security-realm
-          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+          jwk-set-uri: ${spring.security.oauth2.client.provider.keycloak.issuer-uri}/protocol/openid-connect/certs
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8091/realms/ticketing-security-realm
+        registration:
+          ticketing-security-realm:
+            provider: keycloak
+            client-id: ticketing-security-realm
+            client-secret: R9VD7VtYCk5YV0ay88jHyI8B5JpYsPUB
+            authorization-grant-type: authorization_code
+            scope: openid
 
 server:
   port: 8090
