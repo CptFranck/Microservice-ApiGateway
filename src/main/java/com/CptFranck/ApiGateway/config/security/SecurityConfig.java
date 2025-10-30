@@ -49,7 +49,7 @@ public class SecurityConfig {
                                 "/api/v1/inventory"
                         ).authenticated()
                         .anyExchange().authenticated())
-                .oauth2Login(Customizer.withDefaults())
+//                .oauth2Login(Customizer.withDefaults())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwtSpec -> jwtSpec
                                 .jwtDecoder(jwtDecoder())
